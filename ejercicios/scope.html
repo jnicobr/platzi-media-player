@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>
+            Scope
+        </title>
+    </head>
+
+    <body>
+        <a href="/ejercicios">Go back</a>
+        <p><em>Abre la consola!</em></p>
+
+        <script>
+            // Global Scope
+            /**
+             * Usando var fuera de una función las variables se crean como globales
+             * Al ingresar window.message en la consola del navegador se puede acceder la variable
+             */
+            var message = "Hello Platzi!";
+
+            // Function Scope
+            /**
+             * Al crear una variable dentro de una función, aunque se declare con var,
+             * va a existir solo dentro de la función. 
+             * Si una variable se pasa como parámetro 
+             */
+            
+            // Imprime 10 dies veces porque i ha llegado a 10 antes de que pasen los 100ms
+            function prints10tenTimes() {
+                for (var i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        console.log(i); // Prints 10 ten times
+                    }, 100);
+                }
+            }
+            console.log(i); // Undefined
+
+            // i está dentro del scope de la función printsFrom0To9 y n está en un scope distinto, el de eventuallyPrintNumber
+            // En este caso, imprime los números del 0 al 9 
+            function printsFrom0To9() {
+                for (var i = 0; i < 10; i++) {
+                    function eventuallyPrintNumber(n) {
+                        setTimeout(() => {
+                            console.log(n); // Print from 0 to 9
+                        }, 100);
+                    }
+                }
+            }
+
+            // Block Scope
+            /**
+             * Al declarar una variable con let o const en lugar de var, la variable estará
+             * en el scope del bloque donde fue declarada. En este caso, el bucle for.
+             */
+            function printsFrom0To9() {
+                /**
+                 * Cada vez que se ejecuta una iteración del bucle, el timeout tendrá el valor que tenía 
+                 * en la iteración donde fue llamado y no el valor que tiene cuando pasan los 100ms
+                 */
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        console.log(n);
+                    }, 100);
+                }
+            }
+
+            /**
+             * Otro ejemplo de block scope
+             * En este caso, a pesar de que el for esté fuera de una función, la segunda vez
+             * que se llama i, se obtiene Undefined
+             */
+            for (let i = 0; i < 10; i++) {
+                console.log(i); // Print from 0 to 9
+            }
+            console.log(i); // Undefined
+
+            // Module Scope
+            /**
+             * Al llamar una función con agregando type="module" al script tag, las variables
+             * y funciones creadas dentro del script externo no se pueden acceder a menos que 
+             * se exporte e importen de manera explícita
+             * 
+             * El ejemplo es el cambio que se hace en ~/assets/index.js e ~/index.html en este commit
+             */
+        </script>
+    </body>
+</html>
