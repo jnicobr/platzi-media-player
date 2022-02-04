@@ -1,0 +1,72 @@
+
+<html>
+    <head>
+        <title>
+            Closures
+        </title>
+    </head>
+
+    <body>
+        <a href="/ejercicios">Go back</a>
+        <p><em>Abre la consola!</em></p>
+
+        <script>
+            
+            // Closure
+            /**
+            * Es una manera de lograr que una variable sea accesible para una función pero limitar su acceso fuera de un 
+            * determinado function scope
+            */
+
+            /**
+            * La variable color puede accederse desde dentro de la IIFE, pero no desde fuera
+            */
+            (function () {
+                let color = 'green';
+
+                function printColor() {
+                    console.log(color);
+                }
+
+                printColor(); // Prints: green
+            })()
+            console.log(color); // Prints: Undefined
+
+            // Funciones que regresan funciones
+            /**
+            * La función interna printMessage tiene acceso a la variable message
+            */
+            function makeColorPrinter(color) {
+                let message = `The color is ${color}`
+
+                return function printMessage() {
+                    console.log(message)
+                }
+            }
+            let greenColorPrinter = makeColorPrinter("green");
+            greenColorPrinter(); // Prints: The color is green
+            console.log(message) // Prints: Undefined
+
+
+            // Private vars
+            /**
+            * Antes de ECMAScript 12 no se podían crear variables privadas.
+            * El método para hacerlo era utilizando closures
+            */
+            function makeCounter(n) {
+                // Private var
+                let count = n;
+
+                return {
+                    getCount: function () {
+                        return count;
+                    }
+                }
+            }
+            let counter = makeCounter(7);
+
+            console.log(counter.getCount()); // Prints: 7
+            console.log(counter.count); // Prints: Undefined
+        </script>
+    </body>
+</html>
