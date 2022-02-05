@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <title>
+        'this' context
+    </title>
+</head>
+
+<body>
+
+    <a href="/ejercicios">Go back</a>
+    <p><em>Abre la consola!</em></p>
+    <script>
+
+        // This en el scope global
+        /**
+         * En el contexto global, this se vuelve el mismo objeto Window
+         */
+        console.log(`this: ${this}`); // Prints: this: [object Window]
+
+        // This en el scope de una función
+        /**
+         * Al ejecutar una función directamente, sin que un objeto la llame, this sigue asignándose al objeto Window
+         */
+        function thisIsStillWindow() {
+            return this;
+        }
+        console.log(`this: ${thisIsStillWindow()}`); // Prints: this: [object Window]
+
+
+        // This en el scope de una función en strict mode
+        /** 
+         * Al añadir "use strict" se activa el modo estricto que está en funcionamiento desde
+         * ECMAScript 5 y permite evitar algunas malas prácticas de sintaxis que JS permitía antes
+         * 
+         * Al usar la directiva dentro de la función, implica que solo aplica en el contexto de esta.
+         * 
+         * Al usar el modo estricto, this se refiere al objeto que llamó a la función.
+         */
+        function thisIsUndefined() {
+            "use strict";
+            return this;
+        }
+        console.log(`this: ${thisIsUndefined()}`); // Prints: this: undefined
+
+
+        // This en el contexto de un objeto
+        const callingObject = {
+            prop: 'Im a property',
+
+            whoIsThis: function () {
+                return this;
+            },
+            printerMethod: function () {
+                console.log(`Prop?: ${this.prop}`);;
+            }
+        }
+        console.log(callingObject.whoIsThis()); // Prints callingObject: {prop: 'Im a property', whoIsThis: ƒ, printerMethod: ƒ}
+
+        // This cuando sacamos una función de un objeto
+        // Here, the object calling the method is callingObject it self
+        callingObject.printerMethod(); // Prints: Prop?: Im a property
+
+        // Here, the object that has the function to be exectued has changed. 
+        const otherObject = callingObject.printerMethod;
+        /**
+         * otherObject = ƒ () {
+                console.log(`this: ${this.prop}`);;
+            }
+         */
+        otherObject(); // Prints: Prop?: undefined
+
+        // This en el contexto de una clase
+        /**
+         * En el caso de la clases this se refiere a la instancia del objeto.
+         */
+
+
+        function Person(name) {
+            this.name = name;
+
+        }
+
+        Person.prototype.sayHi = function () {
+            console.log(`The name property: ${this.name}`);
+        }
+
+        class Person {
+            constructor(name) {
+                this.name = name;
+            }
+
+            sayHi() {
+                console.log(`The name property: ${this.name}`);
+            }
+        }
+        const newPerson = new Person('Nico');
+        newPerson.sayHi();
+    </script>
+</body>
+
+</html>
