@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <title>
+        Closures
+    </title>
+</head>
+
+<body>
+    <a href="/ejercicios">Go back</a>
+    <p><em>Abre la consola!</em></p>
+    <script>
+
+        function Hero(name) {
+            // Esta copia mediante Object.create es lo que sucede internamente al usar new
+            // const hero = Object.create(Hero.prototype); 
+
+            // Al usar new, el this se enlaza (bind) al nuevo objeto creado
+            this.name = name;
+
+            // Al usar new, se retorna este nuevo objeto de manera implícita
+            // return this;
+        }
+
+        // Agregar métodos a un objeto: Se hace a través de su propiedad prototype
+        Hero.prototype.saludar = function () {
+            console.log(`I'm the superhero ${this.name}`);
+        }
+
+        // new es un atajo que facilita la sintaxis
+        const zelda = new Hero('Zelda');
+        zelda.saludar(); // I'm the superhero Zelda
+
+
+        /**
+         * Ya que JavaScript es un lenguaje basado en prototipos y no en clases, la herencia funciona de una manera diferente a otros lenguajes.
+         * En JS, la herencia funciona mediante una propiedad prototype que guarda las características del objeto las pasa al otro que se creao con base en él(en JS, las clases también son objetos).
+         * 
+         * Con los cambios y actualizaciones que ha recibido JS, ahora existe una sintaxis que emula el comportamiento de los lenguajes basados en clases, sin embargo, tras bambalinas la manera en la que sigue funcionando es mediante prototipos.
+         */
+
+
+        // Class sintaxis
+        class Person {
+            name;
+
+            constructor(name) {
+                this.name = name;
+            }
+
+            introduceSelf() {
+                console.log(`Hi, I'm ${this.name}`);
+            }
+        }
+        const nico = new Person('Nico');
+        console.log(nico.introduceSelf()); // Hi, I'm Nico
+
+        // Inheritance sintaxis
+        class Professor extends Person {
+            teaches;
+
+            constructor(name, teaches) {
+                super(name); // Calls Person constructor and passes the name
+                this.teaches = teaches;
+            }
+
+            introduceSelf() {
+                console.log(`My name is ${this.name}, and I will be your ${this.teaches} professor.`);
+            }
+        }
+        const oscar = new Professor('Oscar', 'JavaScript');
+        oscar.introduceSelf(); // My name is Oscar, and I will be your JavaScript professor.
+
+        // Encapsulation sintaxis
+        class Student extends Person {
+            #year; // Private variable
+
+            constructor(name, year) {
+                super(name);
+                this.#year = year;
+            }
+
+            introduceSelf() {
+                console.log(`Hi! I'm ${this.name}, and I'm in year ${this.#year}.`);
+            }
+
+            #somePrivateMethod() {
+                console.log('You called me?');
+            }
+        }
+        const daniel = new Student('Daniel', 4);
+        daniel.introduceSelf(); // Hi! I'm Daniel, and I'm in year 4.
+        daniel.#somePrivateMethod(); // Syntax Error
+    </script>
+</body>
+
+</html>
