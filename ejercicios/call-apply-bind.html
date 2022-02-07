@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>
+            Call, apply, bind
+        </title>
+    </head>
+
+    <body>
+        <a href="/ejercicios">Go back</a>
+        <p><em>Abre la consola!</em></p>
+
+        <ul>
+            <li><button class="call-to-action">Aprender</button></li>
+            <li><button class="call-to-action">Aprender más</button></li>
+            <li><button class="call-to-action">¡Nunca pares de aprender!</button></li>
+        </ul>
+
+        <script>
+            /**
+            * Ya que sayHi es una función que no pertenece a un objeto que pueda llamarla,
+            * this devuelve un objeto vacío en Node.js o el objeto Window en el navegador.
+            * 
+            * Para asociar un objeto al llamado de la función, se usan los métodos call, apply y bind 
+            */
+
+            // Establece this usando call
+            function sayHi(job = "ingeniero") {
+                console.log(`Me llamo ${this.name} ${this.lastname}. Soy ${job}`);
+            }
+            const person = {
+                name: 'Nico',
+                lastname: 'Bustos'
+            }
+            sayHi.call(person); // Me llamo Nico Bustos. Soy ingeniero
+            sayHi.call(person, "Full-stack developer") // Me llamo Nico Bustos. Soy Full-stack developer
+
+
+            // Establece this usando apply y pasando argumentos a la función
+            sayHi.apply(person, ["Full-stack developer"]); //Me llamo Nico Bustos. Soy Full-stack developer
+
+            // Establece this en una nueva función usando bind
+            const sayHiLater = sayHi.bind(person);
+            sayHiLater(["Full-stack developer"]); // Me llamo Nico Bustos. Soy Full-stack developer
+
+
+            // Cuándo es útil usar estos métodos
+            /**
+            * buttons es un NodeList que no tiene la función forEach. Por esto, usamos la de Array, 
+            * utilizando call para que el contexto de this sea buttons. Basta con que buttons tenga la 
+            * propiedad length para que funcione con el forEach de Array.
+            */
+            const buttons = document.getElementsByClassName('call-to-action');
+
+            Array.prototype.forEach.call(buttons, button => {
+                button.onclick = () => alert('Nunca pares de aprender!');
+            });
+        </script>
+    </body>
+</html>
