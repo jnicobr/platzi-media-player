@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>
+        Prototype
+    </title>
+</head>
+
+<body>
+    <a href="/ejercicios">Go back</a>
+    <p><em>Abre la consola!</em></p>
+    <script>
+        // Generator function
+        function* generator() {
+            // Step 1
+            yield "Hi";
+            // Step 2
+            yield "See ya!"
+        }
+        // Generator object (itera)
+        const actualGenerator = generator();
+        console.log(actualGenerator.next().value); // Hi
+        console.log(actualGenerator.next().value); // See ya!
+
+
+        // With generators infinite processes can be created.
+        // The next method allows to pass values to the generator
+        function* idMakerWithReset() {
+            let id = 1;
+            let reset = false;
+            // Endless id generation
+            while (true) {
+                // Reset the counter if reset flag is true
+                reset = yield id;
+                if (reset) {
+                    id = 1;
+                } else {
+                    id = id + 1;
+                }
+            }
+        }
+        const idGenerator = idMakerWithReset();
+        console.log(idGenerator.next().value); // 1
+        console.log(idGenerator.next().value); // 2
+        console.log(idGenerator.next(true).value); // 1
+        console.log(idGenerator.next().value); // 2
+        console.log(idGenerator.next().value); // 3
+    </script>
+</body>
+
+</html>
