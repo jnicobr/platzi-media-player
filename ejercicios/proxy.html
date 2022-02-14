@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>
+        Proxy
+    </title>
+</head>
+
+<body>
+    <a href="/ejercicios">Go back</a>
+    <p><em>Abre la consola!</em></p>
+
+    <!-- Library to find the amount of chars that shoudl be changed in a string to match other string -->
+    <script src="https://unpkg.com/fast-levenshtein@2.0.6/levenshtein.js"></script>
+    <script>
+        // If a property searched in an array is not found, the get function will be extended to supply suggestions
+        let colors = {
+            red: 'Rojo',
+            green: 'Verde',
+            blue: 'Azul'
+        }
+
+        colors = new Proxy(colors, {
+            get(obj, prop) {
+                // If the property exists, return it
+                if (prop in obj) {
+                    return obj[prop];
+                }
+
+                // If the property searched does not exist, finds the key with the first key with a Levenshtein distance less than 3
+                const suggestion = Object.keys(obj).find(key => {
+                    return Levenshtein.get(key, prop) <= 3;
+                });
+                if (suggestion) {
+                    console.log(`${prop} not found. Did you mean ${suggestion}?`);
+                }
+
+                // Returns the undefined property anyway 
+                return obj[prop];
+            }
+        });
+    </script>
+</body>
+
+</html>
