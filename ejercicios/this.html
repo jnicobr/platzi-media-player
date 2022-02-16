@@ -78,22 +78,12 @@
 
         function Person(name) {
             this.name = name;
-
         }
 
         Person.prototype.sayHi = function () {
             console.log(`The name property: ${this.name}`);
         }
-
-        class Person {
-            constructor(name) {
-                this.name = name;
-            }
-
-            sayHi() {
-                console.log(`The name property: ${this.name}`);
-            }
-        }
+        
         const newPerson = new Person('Nico');
         newPerson.sayHi();
     </script>
