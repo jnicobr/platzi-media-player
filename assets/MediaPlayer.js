@@ -12,11 +12,13 @@ function MediaPlayer(config) {
       // Inside the get & set functions 'this' changes from MediaPlayer scope to the player object scope
       media: this.media, // Gives access to video element from player
       get muted() {
-        console.log(this);
         return this.media.muted;
       },
       set muted(isMuted) {
         this.media.muted = isMuted;
+      },
+      get paused() {
+        return this.media.paused;
       }
     }
 
